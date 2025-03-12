@@ -8,21 +8,21 @@ const Header = () => {
           <ul className="flex gap-6">
             <li>
               <Link
-                href="./"
+                href="/"
                 className="text-sm  hover:text-primary font-medium"
               >
                 Home
               </Link>
             </li>
             <li>
-              <a href="./" className="text-sm  hover:text-primary">
+              <Link href="/favorites" className="text-sm  hover:text-primary">
                 Favorites
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
 
-        <Link href="./" className="text-lg font-semibold">
+        <Link href="/" className="text-lg font-semibold">
           <p>
             <span className="text-primary ">Tasty</span>
             <span className="text-black"> Treats</span>
