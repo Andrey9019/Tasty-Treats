@@ -14,21 +14,16 @@ export default function CardPopularRecipe({
   preview,
 }: RecipeProps) {
   return (
-    <li
-      className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
-      data-id={_id}
-    >
-      <div className="h-40 w-full overflow-hidden">
-        <img
-          src={preview}
-          alt={title}
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-      </div>
-      <div className="p-4">
-        <h4 className="text-lg font-semibold">{title}</h4>
-        <p className="text-sm text-gray-600 mt-2">{description}</p>
+    <li className="flex items-start space-x-4" data-id={_id}>
+      <img
+        src={preview}
+        alt={title}
+        className="w-16 h-16 rounded-lg object-cover"
+      />
+
+      <div className="flex-1">
+        <h4 className="text-sm font-semibold uppercase mb-2">{title}</h4>
+        <p className="text-xs text-gray line-clamp-2">{description}</p>
       </div>
     </li>
   );

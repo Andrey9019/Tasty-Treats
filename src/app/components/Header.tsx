@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FaShoppingCart, FaHamburger } from "react-icons/fa";
 const Header = () => {
   return (
-    <header className="shadow-md">
+    <header className="shadow-md mb-20">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         <nav className="hidden md:flex gap-6">
           <ul className="flex gap-6">

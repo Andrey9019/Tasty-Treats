@@ -24,10 +24,12 @@ export default function PopularRecipes() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <section className="py-8">
+    <section className="">
       <div className="container mx-auto px-4">
-        <h3 className="text-2xl font-bold mb-4">Popular Recipes</h3>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h3 className="text-lg uppercase font-semibold mb-5">
+          Popular Recipes
+        </h3>
+        <ul className="flex flex-col gap-6">
           {recipes.map((recipe) => (
             <CardPopularRecipe key={recipe._id} {...recipe} />
           ))}

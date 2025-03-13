@@ -12,9 +12,10 @@ const config: Config = {
       secondary: "#FFAD63",
       white: "#FFFFFF",
       black: "#000000",
+      gray: "#4B5563",
     },
     fontFamily: {
-      sans: ["PT Serif", "serif"],
+      // sans: ["Inter", "serif"],
     },
     extend: {
       fontSize: {
