@@ -1,11 +1,13 @@
 // import Link from "next/link";
 
-type RecipeProps = {
+import Image from "next/image";
+
+interface RecipeProps {
   _id: string;
   title: string;
   description: string;
   preview: string;
-};
+}
 
 export default function CardPopularRecipe({
   _id,
@@ -15,9 +17,11 @@ export default function CardPopularRecipe({
 }: RecipeProps) {
   return (
     <li className="flex items-start space-x-4" data-id={_id}>
-      <img
+      <Image
         src={preview}
         alt={title}
+        width={64}
+        height={64}
         className="w-16 h-16 rounded-lg object-cover"
       />
 
