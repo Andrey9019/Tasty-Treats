@@ -1,6 +1,7 @@
 import Hero from "./components/main/Hero";
 import PopularRecipes from "./components/main/PopularRecipes/PopularRecipes";
 import AllrRecipes from "./components/main/Recipes/AllRecipes";
+import Filters from "./components/main/Filters/Filters";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <main className="flex flex-col ">
         {/* <Hero /> */}
         <PopularRecipes />
+        <Filters />
         <AllrRecipes />
       </main>
     </div>
