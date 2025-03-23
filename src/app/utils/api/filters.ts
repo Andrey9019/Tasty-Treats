@@ -23,3 +23,8 @@ export const fetchAreas = async () => {
     return [];
   }
 };
+
+export const cookingTimeOptions = Array.from(
+  { length: 24 },
+  (_, i) => (i + 1) * 5
+);

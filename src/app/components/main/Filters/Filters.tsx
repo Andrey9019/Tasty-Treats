@@ -1,123 +1,116 @@
-// "use client";
+"use client";
 
-// import { useEffect, useState } from "react";
-// import { useForm } from "react-hook-form";
-// import { fetchIngredients, fetchAreas } from "../../../utils/api/filters";
+import { useForm } from "react-hook-form";
+import { useState, useEffect, useRef } from "react";
+import {
+  fetchIngredients,
+  fetchAreas,
+  cookingTimeOptions,
+} from "@/app/utils/api/filters";
+import { fetchRecipes } from "@/app/utils/api/fetchRecipes";
 
-// const Filters = () => {
-//   const { register, watch } = useForm({
-//     defaultValues: {
-//       search: "",
-//       time: "",
-//       area: "",
-//       ingredients: "",
-//     },
-//   });
+export default function Filter({
+  setRecipes,
+}: {
+  setRecipes: (recipes: any) => void;
+}) {
+  const { register, watch } = useForm({
+    defaultValues: {
+      search: "",
+      time: "",
+      area: "",
+      ingredient: "",
+    },
+  });
 
-//   const [ingredients, setIngredients] = useState<{ name: string }[]>([]);
-//   const [areas, setAreas] = useState<{ name: string }[]>([]);
+  const [ingredients, setIngredients] = useState<
+    { name: string; _id: string }[]
+  >([]);
+  const [areas, setAreas] = useState<{ name: string }[]>([]);
 
-//   useEffect(() => {
-//     const loadData = async () => {
-//       const [ingredientsData, areasData] = await Promise.all([
-//         fetchIngredients(),
-//         fetchAreas(),
-//       ]);
-//       setIngredients(ingredientsData);
-//       setAreas(areasData);
-//     };
+  const prevFilter = useRef<string>("");
 
-//     loadData();
-//   }, []);
+  useEffect(() => {
+    const loadData = async () => {
+      const [ingredientsData, areasData] = await Promise.all([
+        fetchIngredients(),
+        fetchAreas(),
+      ]);
+      setIngredients(ingredientsData);
+      setAreas(areasData);
+    };
+    loadData();
+  }, []);
 
-//   // Отримуємо поточні значення фільтрів
-//   const filters = watch();
+  const filters = watch();
+  console.log(filters);
+  const filteresSrting = JSON.stringify(filters);
 
-//   // Відправляємо запит при зміні фільтрів
-//   useEffect(() => {
-//     const queryParams = new URLSearchParams(
-//       Object.entries(filters).reduce(
-//         (acc: Record<string, string>, [key, value]) => {
-//           if (value) acc[key] = value;
-//           return acc;
-//         },
-//         {}
-//       )
-//     ).toString();
+  if (prevFilter.current !== filteresSrting) {
+    prevFilter.current = filteresSrting;
+  }
+  useEffect(() => {
+    const applyFilters = async () => {
+      const activeFilters = Object.entries(filters).reduce(
+        (acc: Record<string, string>, [key, value]) => {
+          if (value) acc[key] = value;
+          return acc;
+        },
+        {}
+      );
+      const data = await fetchRecipes(activeFilters);
+      setRecipes(data.results);
 
-//     console.log("Fetching recipes with filters:", queryParams);
+      console.log("data", data.results);
+    };
+    applyFilters();
+  }, [filteresSrting, setRecipes]);
 
-//     // TODO: Додати API-запит для отримання рецептів
-//   }, [filters]);
-
-//   return (
-//     <form className="space-y-4 p-4 border rounded-lg shadow-md">
-//       {/* Search */}
-//       <div>
-//         <label className="block font-medium">Search</label>
-//         <input {...register("search")} placeholder="Enter text" />
-//       </div>
-
-//       {/* Time */}
-//       <div>
-//         <label className="block font-medium">Time</label>
-//         <select {...register("time")} className="input">
-//           <option value="">Any</option>
-//           <option value="10">10 min</option>
-//           <option value="20">20 min</option>
-//           <option value="30">30 min</option>
-//         </select>
-//       </div>
-
-//       {/* Area */}
-//       <div>
-//         <label className="block font-medium">Area</label>
-//         <select {...register("area")} className="input">
-//           <option value="">Any</option>
-//           {areas.map((area) => (
-//             <option key={area.name} value={area.name}>
-//               {area.name}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-
-//       {/* Ingredients */}
-//       <div>
-//         <label className="block font-medium">Ingredients</label>
-//         <select {...register("ingredients")} className="input">
-//           <option value="">Any</option>
-//           {ingredients.map((item) => (
-//             <option key={item.name} value={item.name}>
-//               {item.name}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-//     </form>
-//   );
-// };
-
-// export default Filters;
-
-export default function Filter() {
   return (
     <form className="space-y-4 p-4  rounded-lg">
       <input
+        {...register("search")}
         placeholder="Search..."
         className="w-full px-4 py-2 border rounded-lg"
       />
 
-      <select className="w-full px-4 py-2 border rounded-lg">
-        <option value="">Any Time</option>
+      <label className="font-medium">Time</label>
+      <select
+        {...register("time")}
+        className="w-full px-4 py-2 border rounded-lg"
+      >
+        <option value="">Any</option>
+        {cookingTimeOptions.map((time) => (
+          <option key={time} value={time}>
+            {time} min
+          </option>
+        ))}
       </select>
 
-      <select className="w-full px-4 py-2 border rounded-lg">
-        <option value="">All Regions</option>
+      <label className="font-medium">Regions</label>
+      <select
+        {...register("area")}
+        className="w-full px-4 py-2 border rounded-lg"
+      >
+        <option value="">Any</option>
+        {areas.map((area) => (
+          <option key={area.name} value={area.name}>
+            {area.name}
+          </option>
+        ))}
       </select>
 
-      <select className="w-full px-4 py-2 border rounded-lg">
-        <option value="">Any Ingredient</option>
+      <label className="font-medium">Ingredients</label>
+      <select
+        {...register("ingredient")}
+        className="w-full px-4 py-2 border rounded-lg"
+      >
+        <option value="">Any</option>
+        {ingredients.map((ingredient) => (
+          <option key={ingredient._id} value={ingredient._id}>
+            {ingredient.name}
+          </option>
+        ))}
       </select>
     </form>
   );
