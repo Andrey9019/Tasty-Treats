@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchAllPecipes } from "../../../utils/api/all-recipes";
 import CardRecipe from "./CardPecipe";
 import Filter from "../../main/Filters/Filters";
+import CategoriesFilter from "../Filters/Categories";
 
 interface RecipesProp {
   _id: string;
@@ -31,8 +32,9 @@ export default function AllrRecipes() {
   return (
     <section className="">
       <div className="container mx-auto px-4">
+        {/* <CategoriesFilter setRecipes={setFilteredRecipes} /> */}
         <Filter setRecipes={setFilteredRecipes} />
-        <ul className="flex flex-col gap-6">
+        <ul className="flex flex-col items-center gap-6">
           {(filteredRecipes ?? recipes).map((recipe) => (
             <CardRecipe key={recipe._id} {...recipe} />
           ))}

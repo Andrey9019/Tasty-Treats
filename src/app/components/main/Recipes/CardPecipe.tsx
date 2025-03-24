@@ -20,7 +20,10 @@ export default function CardRecipe({
   preview,
 }: CardRecipeProps) {
   return (
-    <li className="relative rounded-2xl overflow-hidden" data-id={_id}>
+    <li
+      className="w-[335px] h-[335px] relative rounded-2xl overflow-hidden"
+      data-id={_id}
+    >
       <Image
         src={preview}
         alt={title}
